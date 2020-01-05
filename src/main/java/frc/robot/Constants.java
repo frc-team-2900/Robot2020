@@ -16,4 +16,16 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    
+    //buttons and axis values on controller
+   public static int aButton =1;
+   public static int bButton =2;
+   public static int xButton =3;
+   public static int yButton =4;
+   public static int leftButton=5;
+   public static int rightButton=6;
+   public static int leftAxis=1;
+   public static int rightAxis=5;
+
+
 }
