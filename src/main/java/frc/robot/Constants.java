@@ -24,8 +24,8 @@ public final class Constants {
    public static int yButton =4;
    public static int leftButton=5;
    public static int rightButton=6;
-   public static int leftAxis=1;
-   public static int rightAxis=5;
+   public static int stickAxis=1;
+   //public static int rightAxis=5;
 
 
 }
