@@ -7,11 +7,15 @@
 
 package frc.robot.subsystems;
 
+import java.time.chrono.ThaiBuddhistEra;
+
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.commands.DriveWithJoysticks;
 
 public class Drivetrain extends SubsystemBase {
   public static SpeedController topLeft;
@@ -25,10 +29,10 @@ public class Drivetrain extends SubsystemBase {
    * Creates a new Drivetrain.
    */
   public Drivetrain() {
-topLeft= new Spark(0);
-bottomLeft= new Spark(1);
-topRight= new Spark(2);
-bottomRight= new Spark(3);
+topLeft= new Spark(Constants.topLeft);
+bottomLeft= new Spark(Constants.bottomLeft);
+topRight= new Spark(Constants.topRight);
+bottomRight= new Spark(Constants.bottomRight);
 left= new SpeedControllerGroup(topLeft, bottomLeft);
 right = new SpeedControllerGroup (topRight,bottomRight);
 drive= new DifferentialDrive(left, right);

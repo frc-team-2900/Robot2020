@@ -25,20 +25,23 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain = new Drivetrain();
-  private final GenericHID left= new Joystick(1);
-  private final GenericHID right= new Joystick(2);
+
 
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
 
-
+public static GenericHID LeftController;
+public static GenericHID RightController;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
+
     configureButtonBindings();
+    LeftController=new Joystick (Constants.joyLeft);
+    RightController= new Joystick (Constants.joyRight);
   }
 
   /**
