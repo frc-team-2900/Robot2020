@@ -17,8 +17,13 @@ public class DriveWithJoysticks extends CommandBase {
    * Creates a new DriveWithJoysticks.
    */
   private static Drivetrain d;
-  public DriveWithJoysticks(Drivetrain d) {
-  d=this.d;
+  private int left;
+  private int right;
+
+  public DriveWithJoysticks(Drivetrain drive, double left,double right) {
+    left=this.left;
+    right=this.right;
+    d=drive;
   addRequirements(d);
   }
 
@@ -31,8 +36,8 @@ public class DriveWithJoysticks extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    d.left.set(RobotContainer.LeftController.getRawAxis(Constants.stickAxis));
-    d.right.set(-RobotContainer.RightController.getRawAxis(Constants.stickAxis));
+   RobotContainer.drive.tankDrive(left, right);
+    
   }
 
   // Called once the command ends or is interrupted.
