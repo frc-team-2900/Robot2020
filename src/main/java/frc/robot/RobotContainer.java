@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
@@ -14,17 +17,23 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.SPI;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
   // Drivetrain stuff
@@ -32,21 +41,20 @@ public class RobotContainer {
   public static SpeedController bottomLeft;
   public static SpeedController topRight;
   public static SpeedController bottomRight;
-  public static  SpeedControllerGroup left;
-  public static  SpeedControllerGroup right;
+  public static SpeedControllerGroup left;
+  public static SpeedControllerGroup right;
   public static DifferentialDrive drive;
+  public static AHRS ahrs;
 
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain = new Drivetrain();
 
+  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-
- private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-
-public static GenericHID LeftController;
-public static GenericHID RightController;
+  public static GenericHID LeftController;
+  public static GenericHID RightController;
+  private static Button pidJoystickButton;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -57,6 +65,7 @@ public static GenericHID RightController;
     //controller
  LeftController=new Joystick (Constants.joyLeft);
 RightController= new Joystick (Constants.joyRight);
+//motor controllers
  topLeft= new Spark(Constants.topLeft);
 bottomLeft= new Spark(Constants.bottomLeft);
 topRight= new Spark(Constants.topRight);
@@ -68,6 +77,20 @@ drive.setSafetyEnabled(true);
 drive.setExpiration(0.1);
 drive.setMaxOutput(1.0);
 drive.setRightSideInverted(true);
+
+try {
+  ahrs=new AHRS(SPI.Port.kMXP);
+} catch (Exception e) {
+  
+    DriverStation.reportError("Error instantiating AHRS", true);
+}
+
+//SmartDashboard
+SmartDashboard.putBoolean("AHRS callibrating", ahrs.isCalibrating()); 
+
+
+
+
 
     drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain,
     LeftController.getRawAxis(Constants.stickAxis),
@@ -81,7 +104,8 @@ drive.setRightSideInverted(true);
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
+    pidJoystickButton= new JoystickButton(LeftController, Constants.pidButton)
+        .toggleWhenPressed(new DriveStraight(ahrs.getYaw(), drivetrain));
   }
 
 

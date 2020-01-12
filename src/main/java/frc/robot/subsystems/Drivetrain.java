@@ -10,11 +10,15 @@ package frc.robot.subsystems;
 
 
 
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 
 public class Drivetrain extends SubsystemBase {
- 
+
+
   /**
    * Creates a new Drivetrain.
    */
@@ -22,6 +26,10 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
+  public static double calcAverageInput(){
+    return (RobotContainer.LeftController.getRawAxis(Constants.stickAxis)+
+    RobotContainer.RightController.getRawAxis(Constants.stickAxis))/2;
+  }  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
