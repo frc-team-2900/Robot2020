@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 
@@ -22,7 +23,7 @@ public class DriveStraight extends PIDCommand {
   public DriveStraight(double heading, Drivetrain d) {
     super(
         // The controller that the command will use
-        new PIDController(0, 0, 0),
+        new PIDController(Constants.kp, Constants.ki, Constants.kd),
         // This should return the measurement
         () -> RobotContainer.ahrs.getYaw(),
         // This should return the setpoint (can also be a constant)

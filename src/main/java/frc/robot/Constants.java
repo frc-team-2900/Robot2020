@@ -29,10 +29,10 @@ public final class Constants {
    public static int pidButton=0;
    //public static int rightAxis=5;
 // pwm values
-public static int topRight=3;
-public static int bottomRight=4;
-public static int topLeft=5;
-public static int bottomLeft=6;
+public static int topRight=5;
+public static int bottomRight=6;
+public static int topLeft=3;
+public static int bottomLeft=4;
 
 //joysticks
 public static int xbox=0;

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -66,7 +67,7 @@ public class RobotContainer {
  LeftController=new Joystick (Constants.joyLeft);
 RightController= new Joystick (Constants.joyRight);
 //motor controllers
- topLeft= new Spark(Constants.topLeft);
+ topLeft= new Talon(Constants.topLeft);
 bottomLeft= new Spark(Constants.bottomLeft);
 topRight= new Spark(Constants.topRight);
 bottomRight= new Spark(Constants.bottomRight);
