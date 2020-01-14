@@ -67,7 +67,7 @@ public class RobotContainer {
  LeftController=new Joystick (Constants.joyLeft);
 RightController= new Joystick (Constants.joyRight);
 //motor controllers
- topLeft= new Talon(Constants.topLeft);
+ topLeft= new Spark(Constants.topLeft);
 bottomLeft= new Spark(Constants.bottomLeft);
 topRight= new Spark(Constants.topRight);
 bottomRight= new Spark(Constants.bottomRight);
