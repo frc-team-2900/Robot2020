@@ -55,7 +55,7 @@ public class RobotContainer {
 
   public static GenericHID LeftController;
   public static GenericHID RightController;
-  private static Button pidJoystickButton;
+  //private static Button pidJoystickButton;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -74,7 +74,7 @@ bottomRight= new Spark(Constants.bottomRight);
 left= new SpeedControllerGroup(topLeft, bottomLeft);
 right = new SpeedControllerGroup (topRight,bottomRight);
 drive= new DifferentialDrive(left, right);
-drive.setSafetyEnabled(true);
+drive.setSafetyEnabled(false);
 drive.setExpiration(0.1);
 drive.setMaxOutput(1.0);
 drive.setRightSideInverted(true);
@@ -88,7 +88,7 @@ try {
 
 //SmartDashboard
 SmartDashboard.putBoolean("AHRS callibrating", ahrs.isCalibrating()); 
-
+SmartDashboard.putData("drive", new DriveWithJoysticks(drivetrain, LeftController.getRawAxis(Constants.stickAxis), RightController.getRawAxis(Constants.stickAxis)));
 
 
 
@@ -105,8 +105,8 @@ SmartDashboard.putBoolean("AHRS callibrating", ahrs.isCalibrating());
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    pidJoystickButton= new JoystickButton(LeftController, Constants.pidButton)
-        .toggleWhenPressed(new DriveStraight(ahrs.getYaw(), drivetrain));
+    //pidJoystickButton= new JoystickButton(LeftController, Constants.pidButton)
+      //  .toggleWhenPressed(new DriveStraight(ahrs.getYaw(), drivetrain));
   }
 
 

@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -25,6 +26,7 @@ public class DriveWithJoysticks extends CommandBase {
     right=this.right;
     d=drive;
   addRequirements(d);
+ System.out.println("Driving");
   }
 
   // Called when the command is initially scheduled.
