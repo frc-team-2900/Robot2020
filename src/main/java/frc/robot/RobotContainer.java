@@ -25,6 +25,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.SPI;
@@ -74,14 +75,14 @@ bottomRight= new Spark(Constants.bottomRight);
 left= new SpeedControllerGroup(topLeft, bottomLeft);
 right = new SpeedControllerGroup (topRight,bottomRight);
 drive= new DifferentialDrive(left, right);
-drive.setSafetyEnabled(false);
-drive.setExpiration(0.1);
-drive.setMaxOutput(1.0);
-drive.setRightSideInverted(true);
+//drive.setSafetyEnabled(false);
+//drive.setExpiration(0.1);
+//drive.setMaxOutput(1.0);
+//drive.setRightSideInverted(true);
 
 try {
   ahrs=new AHRS(SPI.Port.kMXP);
-} catch (Exception e) {
+} catch (final Exception e) {
   
     DriverStation.reportError("Error instantiating AHRS", true);
 }
@@ -93,9 +94,9 @@ SmartDashboard.putData("drive", new DriveWithJoysticks(drivetrain, LeftControlle
 
 
 
-    drivetrain.setDefaultCommand(new DriveWithJoysticks(drivetrain,
-    LeftController.getRawAxis(Constants.stickAxis),
-    -RightController.getRawAxis(Constants.stickAxis)));
+    drivetrain.setDefaultCommand(new RunCommand(()->drive.tankDrive
+    (LeftController.getRawAxis(Constants.stickAxis), 
+    RightController.getRawAxis(Constants.stickAxis)), drivetrain));
   }
 
   /**
@@ -104,12 +105,11 @@ SmartDashboard.putData("drive", new DriveWithJoysticks(drivetrain, LeftControlle
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  private void configureButtonBindings() { 
     //pidJoystickButton= new JoystickButton(LeftController, Constants.pidButton)
       //  .toggleWhenPressed(new DriveStraight(ahrs.getYaw(), drivetrain));
+
   }
-
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
