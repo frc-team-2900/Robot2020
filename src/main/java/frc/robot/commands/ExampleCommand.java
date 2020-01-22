@@ -14,7 +14,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * An example command that uses an example subsystem.
  */
 public class ExampleCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  /**
+   *
+   */
+  private static final String PMD_UNUSED_PRIVATE_FIELD = "PMD.UnusedPrivateField";
+  @SuppressWarnings({PMD_UNUSED_PRIVATE_FIELD, "PMD.SingularField"})
   private final ExampleSubsystem m_subsystem;
 
   /**
@@ -22,7 +26,7 @@ public class ExampleCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExampleCommand(ExampleSubsystem subsystem) {
+  public ExampleCommand(final ExampleSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -40,7 +44,7 @@ public class ExampleCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  public void end(final boolean interrupted) {
   }
 
   // Returns true when the command should end.

@@ -56,17 +56,19 @@ public class RobotContainer {
 
   public static GenericHID LeftController;
   public static GenericHID RightController;
-  //private static Button pidJoystickButton;
+  private static JoystickButton pidJoystickButton;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
 
-    configureButtonBindings();
+    
     //controller
  LeftController=new Joystick (Constants.joyLeft);
 RightController= new Joystick (Constants.joyRight);
+pidJoystickButton=new JoystickButton(LeftController, Constants.pidButton);
+  configureButtonBindings();
 //motor controllers
  topLeft= new Spark(Constants.topLeft);
 bottomLeft= new Spark(Constants.bottomLeft);
@@ -95,8 +97,8 @@ SmartDashboard.putData("drive", new DriveWithJoysticks(drivetrain, LeftControlle
 
 
     drivetrain.setDefaultCommand(new RunCommand(()->drive.tankDrive
-    (LeftController.getRawAxis(Constants.stickAxis), 
-    RightController.getRawAxis(Constants.stickAxis)), drivetrain));
+    (-LeftController.getRawAxis(Constants.stickAxis), 
+    -RightController.getRawAxis(Constants.stickAxis)), drivetrain));
   }
 
   /**
@@ -106,9 +108,9 @@ SmartDashboard.putData("drive", new DriveWithJoysticks(drivetrain, LeftControlle
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() { 
-    //pidJoystickButton= new JoystickButton(LeftController, Constants.pidButton)
-      //  .toggleWhenPressed(new DriveStraight(ahrs.getYaw(), drivetrain));
-
+    pidJoystickButton.toggleWhenPressed(new DriveStraight(ahrs.getYaw(),drivetrain));
+    
+    
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
