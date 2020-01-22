@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveStraight;
@@ -25,6 +26,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -67,7 +69,7 @@ public class RobotContainer {
     //controller
  LeftController=new Joystick (Constants.joyLeft);
 RightController= new Joystick (Constants.joyRight);
-pidJoystickButton=new JoystickButton(LeftController, Constants.pidButton);
+//pidJoystickButton=new JoystickButton(LeftController, Constants.pidButton);
   configureButtonBindings();
 //motor controllers
  topLeft= new Spark(Constants.topLeft);
@@ -108,8 +110,15 @@ SmartDashboard.putData("drive", new DriveWithJoysticks(drivetrain, LeftControlle
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() { 
-    pidJoystickButton.toggleWhenPressed(new DriveStraight(ahrs.getYaw(),drivetrain));
-    
+   // pidJoystickButton.toggleWhenPressed(new DriveStraight(ahrs.getYaw(),drivetrain));
+    new JoystickButton(LeftController,Constants.pidButton)
+    .toggleWhenPressed(new PIDCommand(new PIDController(
+      Constants.kp,Constants.ki,Constants.kd)
+    , ahrs.getYaw(),
+     ahrs.getYaw(),  
+     output -> {
+      drive.tankDrive(Drivetrain.calcAverageInput()+output, Drivetrain.calcAverageInput()-output)
+    };, drivetrain));
     
   }
   /**
