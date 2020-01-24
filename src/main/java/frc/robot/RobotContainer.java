@@ -117,9 +117,8 @@ SmartDashboard.putData("drive", new DriveWithJoysticks(drivetrain, LeftControlle
     , ahrs.getYaw(),
      ahrs.getYaw(),  
      output -> {
-      drive.tankDrive(Drivetrain.calcAverageInput()+output, Drivetrain.calcAverageInput()-output)
-    };, drivetrain));
-    
+      drive.tankDrive(Drivetrain.calcAverageInput()+output, Drivetrain.calcAverageInput()-output);});
+      , drivetrain));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
