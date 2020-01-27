@@ -94,7 +94,7 @@ try {
 //SmartDashboard
 SmartDashboard.putBoolean("AHRS callibrating", ahrs.isCalibrating()); 
 SmartDashboard.putData("drive", new DriveWithJoysticks(drivetrain, LeftController.getRawAxis(Constants.stickAxis), RightController.getRawAxis(Constants.stickAxis)));
-
+SmartDashboard.putNumber("Yaw",ahrs.getYaw());
 
 
 
@@ -114,12 +114,12 @@ SmartDashboard.putData("drive", new DriveWithJoysticks(drivetrain, LeftControlle
     new JoystickButton(LeftController,Constants.pidButton)
     .toggleWhenPressed(new PIDCommand(new PIDController(
       Constants.kp,Constants.ki,Constants.kd)
-    , ahrs.getYaw(),
-     ahrs.getYaw(),  
-     output -> {
-      drive.tankDrive(Drivetrain.calcAverageInput()+output, Drivetrain.calcAverageInput()-output);});
-      , drivetrain));
+    , ()->ahrs.getYaw(),
+     ()->ahrs.getYaw(),  
+     output -> drive.tankDrive(Drivetrain.calcAverageInput()+output, Drivetrain.calcAverageInput()-output),
+       drivetrain));
   }
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

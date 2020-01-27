@@ -26,7 +26,7 @@ public final class Constants {
    public static int rightButton=6;
    public static int stickAxis=1;
 
-   public static int pidButton=0;
+   public static int pidButton=1;
    //public static int rightAxis=5;
 // pwm values
 public static int topRight=5;
