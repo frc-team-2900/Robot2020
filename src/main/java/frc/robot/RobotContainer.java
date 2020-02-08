@@ -25,6 +25,7 @@ import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -49,16 +50,19 @@ public class RobotContainer {
   public static SpeedControllerGroup right;
   public static DifferentialDrive drive;
   public static AHRS ahrs;
-
+  public static SpeedController intake1;
+  public static SpeedController intake2;
+  public static SpeedControllerGroup intake;
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain = new Drivetrain();
+  private final Intake intakeSubsytem= new Intake();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public static GenericHID LeftController;
   public static GenericHID RightController;
-  private static JoystickButton pidJoystickButton;
+  public static GenericHID Xbox;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -69,6 +73,7 @@ public class RobotContainer {
     //controller
  LeftController=new Joystick (Constants.joyLeft);
 RightController= new Joystick (Constants.joyRight);
+Xbox=new XboxController(Constants.xbox);
 //pidJoystickButton=new JoystickButton(LeftController, Constants.pidButton);
   configureButtonBindings();
 //motor controllers
@@ -79,6 +84,10 @@ bottomRight= new Spark(Constants.bottomRight);
 left= new SpeedControllerGroup(topLeft, bottomLeft);
 right = new SpeedControllerGroup (topRight,bottomRight);
 drive= new DifferentialDrive(left, right);
+
+intake1 = new Spark(Constants.intake1);
+intake2 = new Spark(Constants.intake2);
+intake = new SpeedControllerGroup(intake1, intake2);
 //drive.setSafetyEnabled(false);
 //drive.setExpiration(0.1);
 //drive.setMaxOutput(1.0);
@@ -101,6 +110,9 @@ SmartDashboard.putNumber("Yaw",ahrs.getYaw());
     drivetrain.setDefaultCommand(new RunCommand(()->drive.tankDrive
     (-LeftController.getRawAxis(Constants.stickAxis), 
     -RightController.getRawAxis(Constants.stickAxis)), drivetrain));
+
+    intakeSubsytem.setDefaultCommand(new RunCommand(()->
+    intake.set(Xbox.getRawAxis(Constants.xboxLeftJoy)),intakeSubsytem));
   }
 
   /**
@@ -118,6 +130,10 @@ SmartDashboard.putNumber("Yaw",ahrs.getYaw());
      ()->ahrs.getYaw(),  
      output -> drive.tankDrive(Drivetrain.calcAverageInput()+output, Drivetrain.calcAverageInput()-output),
        drivetrain));
+    
+     
+
+       
   }
   
   /**

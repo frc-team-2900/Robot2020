@@ -25,6 +25,8 @@ public final class Constants {
    public static int leftButton=5;
    public static int rightButton=6;
    public static int stickAxis=1;
+   public static int xboxLeftJoy=1;
+   public static int xboxRightJoy=5;
 
    public static int pidButton=1;
    //public static int rightAxis=5;
@@ -33,6 +35,9 @@ public static int topRight=5;
 public static int bottomRight=6;
 public static int topLeft=3;
 public static int bottomLeft=4;
+public static int intake2=2;
+public static int intake1 =1;
+
 
 //joysticks
 public static int xbox=0;
