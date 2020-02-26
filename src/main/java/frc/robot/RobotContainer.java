@@ -3,7 +3,7 @@
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*---------------------------------------------------------------*/
 
 package frc.robot;
 
@@ -20,15 +20,22 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.CrossAutoLine;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.SetTop;
+import frc.robot.commands.SetTopDown;
+import frc.robot.commands.SetBottom;
+import frc.robot.commands.SetBottomDown;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.SPI;
@@ -57,9 +64,10 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain = new Drivetrain();
   private final Intake intakeSubsytem= new Intake();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
+private final Command autoCommand= new StartEndCommand(()->drive.tankDrive(Constants.autoLineSpeed,Constants.autoLineSpeed),
+()->drive.tankDrive(0, 0));
+  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+private  CrossAutoLine auto;
   public static GenericHID LeftController;
   public static GenericHID RightController;
   public static GenericHID Xbox;
@@ -87,7 +95,7 @@ drive= new DifferentialDrive(left, right);
 
 intake1 = new Spark(Constants.intake1);
 intake2 = new Spark(Constants.intake2);
-intake = new SpeedControllerGroup(intake1, intake2);
+//intake = new SpeedControllerGroup(intake1, intake2);
 //drive.setSafetyEnabled(false);
 //drive.setExpiration(0.1);
 //drive.setMaxOutput(1.0);
@@ -111,8 +119,7 @@ SmartDashboard.putNumber("Yaw",ahrs.getYaw());
     (-LeftController.getRawAxis(Constants.stickAxis), 
     -RightController.getRawAxis(Constants.stickAxis)), drivetrain));
 
-    intakeSubsytem.setDefaultCommand(new RunCommand(()->
-    intake.set(Xbox.getRawAxis(Constants.xboxLeftJoy)),intakeSubsytem));
+
   }
 
   /**
@@ -131,18 +138,18 @@ SmartDashboard.putNumber("Yaw",ahrs.getYaw());
      output -> drive.tankDrive(Drivetrain.calcAverageInput()+output, Drivetrain.calcAverageInput()-output),
        drivetrain));
     
-     
-
-       
-  }
-  
+ new  JoystickButton(Xbox,Constants.aButton).toggleWhenPressed(new SetTop());
+ new  JoystickButton(Xbox,Constants.bButton).toggleWhenPressed(new SetBottom());
+ new  JoystickButton(Xbox,Constants.xButton).toggleWhenPressed(new SetTopDown());
+ new  JoystickButton(Xbox,Constants.yButton).toggleWhenPressed(new SetBottomDown());  
+}
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    auto=new CrossAutoLine(System.currentTimeMillis(),drivetrain);
+    return auto;
   }
 }

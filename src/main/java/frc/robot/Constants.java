@@ -35,8 +35,8 @@ public static int topRight=5;
 public static int bottomRight=6;
 public static int topLeft=3;
 public static int bottomLeft=4;
-public static int intake2=2;
-public static int intake1 =1;
+public static int intake2=8;
+public static int intake1 =7;
 
 
 //joysticks
@@ -49,5 +49,9 @@ public static double kp=1.0;
 public static double ki=0;
 public static double kd=0;
 
+
+//autonomous
+public static double autoLineSpeed=-0.7;
+public static double autoLineTime=2500.0;
 
 }
