@@ -31,6 +31,7 @@ import frc.robot.commands.SetBottomDown;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Spinner;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
@@ -60,17 +61,19 @@ public class RobotContainer {
   public static SpeedController intake1;
   public static SpeedController intake2;
   public static SpeedControllerGroup intake;
+  public static SpeedController spinnerController;
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain = new Drivetrain();
   private final Intake intakeSubsytem= new Intake();
+  private final Spinner spinner=new Spinner();
 private final Command autoCommand= new StartEndCommand(()->drive.tankDrive(Constants.autoLineSpeed,Constants.autoLineSpeed),
 ()->drive.tankDrive(0, 0));
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 private  CrossAutoLine auto;
   public static GenericHID LeftController;
   public static GenericHID RightController;
-  public static GenericHID Xbox;
+  public static XboxController Xbox;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -118,7 +121,7 @@ SmartDashboard.putNumber("Yaw",ahrs.getYaw());
     drivetrain.setDefaultCommand(new RunCommand(()->drive.tankDrive
     (-LeftController.getRawAxis(Constants.stickAxis), 
     -RightController.getRawAxis(Constants.stickAxis)), drivetrain));
-
+    spinner.setDefaultCommand(new RunCommand(()->spinnerController.set(Spinner.setSpeed(Xbox)),spinner));
 
   }
 

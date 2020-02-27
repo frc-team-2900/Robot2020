@@ -37,12 +37,14 @@ public static int topLeft=3;
 public static int bottomLeft=4;
 public static int intake2=8;
 public static int intake1 =7;
-
+public static int spinner=2;
 
 //joysticks
 public static int xbox=0;
 public static int joyLeft=1;
 public static int joyRight=2;
+public static int leftTrigger=2;
+public static int rightTrigger=3;
 
 //PID values
 public static double kp=1.0;
