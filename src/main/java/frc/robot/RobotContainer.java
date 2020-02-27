@@ -31,6 +31,8 @@ import frc.robot.commands.SetBottomDown;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.MetalWireThing;
 import frc.robot.subsystems.Spinner;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -62,13 +64,19 @@ public class RobotContainer {
   public static SpeedController intake2;
   public static SpeedControllerGroup intake;
   public static SpeedController spinnerController;
+  public static SpeedController liftController;
+  public static SpeedController metalWireMotor1;
+  public static SpeedController metalWireMotor2;
+  public static SpeedControllerGroup wireMotors;
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain = new Drivetrain();
   private final Intake intakeSubsytem= new Intake();
   private final Spinner spinner=new Spinner();
-private final Command autoCommand= new StartEndCommand(()->drive.tankDrive(Constants.autoLineSpeed,Constants.autoLineSpeed),
-()->drive.tankDrive(0, 0));
+  private final Lift lift = new Lift();
+  private final MetalWireThing m= new MetalWireThing();
+/*private final Command autoCommand= new StartEndCommand(()->drive.tankDrive(Constants.autoLineSpeed,Constants.autoLineSpeed),
+()->drive.tankDrive(0, 0));*/
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 private  CrossAutoLine auto;
   public static GenericHID LeftController;
@@ -92,6 +100,11 @@ Xbox=new XboxController(Constants.xbox);
 bottomLeft= new Spark(Constants.bottomLeft);
 topRight= new Spark(Constants.topRight);
 bottomRight= new Spark(Constants.bottomRight);
+spinnerController= new Spark(Constants.spinner);
+liftController= new Spark(Constants.lift);
+metalWireMotor1= new Spark(Constants.metalWire1);
+metalWireMotor2=new Spark(Constants.MetalWire2);
+wireMotors=new SpeedControllerGroup(metalWireMotor1, metalWireMotor2);
 left= new SpeedControllerGroup(topLeft, bottomLeft);
 right = new SpeedControllerGroup (topRight,bottomRight);
 drive= new DifferentialDrive(left, right);
@@ -122,7 +135,8 @@ SmartDashboard.putNumber("Yaw",ahrs.getYaw());
     (-LeftController.getRawAxis(Constants.stickAxis), 
     -RightController.getRawAxis(Constants.stickAxis)), drivetrain));
     spinner.setDefaultCommand(new RunCommand(()->spinnerController.set(Spinner.setSpeed(Xbox)),spinner));
-
+    lift.setDefaultCommand(new RunCommand(()->liftController.set(Xbox.getRawAxis(Constants.xboxLeftJoy)),lift));
+    m.setDefaultCommand(new RunCommand(()->wireMotors.set(Xbox.getRawAxis(Constants.xboxRightJoy)),m));
   }
 
   /**
